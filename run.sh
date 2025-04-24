@@ -4,7 +4,7 @@
 set -e
 
 # Activate virtual environment
-source venv/bin/activate
+source myenv/bin/activate
 
 # Run the script
 echo "🚀 Starting trading charts script..."
