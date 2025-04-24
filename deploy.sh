@@ -3,61 +3,42 @@
 # Exit on error
 set -e
 
-echo "📦 Setting up trading charts deployment..."
+echo "🚀 Starting deployment..."
 
-# Create directory structure
-mkdir -p assets logs charts
+# Update from git
+echo "📥 Pulling latest changes..."
+git pull origin main
 
-# Check if virtual environment exists
+# Create virtual environment if it doesn't exist
 if [ ! -d "venv" ]; then
     echo "🔧 Creating virtual environment..."
     python -m venv venv
 fi
 
 # Activate virtual environment
+echo "🔌 Activating virtual environment..."
 source venv/bin/activate
 
-# Install/upgrade pip
-python -m pip install --upgrade pip
-
-# Install requirements
-echo "📚 Installing dependencies..."
+# Install/update dependencies
+echo "📦 Installing dependencies..."
 pip install -r requirements.txt
 
-# Check for .env file
+# Create necessary directories
+echo "📁 Creating directories..."
+mkdir -p charts logs
+
+# Copy environment file if it doesn't exist
 if [ ! -f ".env" ]; then
-    echo "⚙️ Creating .env file from template..."
+    echo "⚙️ Setting up environment file..."
     cp .env.example .env
-    echo "⚠️ Please edit .env file with your configuration"
+    echo "⚠️ Please update .env with your configuration"
 fi
 
-# Check for credentials.json
+# Check for credentials file
 if [ ! -f "credentials.json" ]; then
-    echo "⚠️ credentials.json not found!"
-    echo "Please place your Google Sheets credentials file in the project directory"
+    echo "⚠️ Warning: credentials.json not found"
+    echo "Please place your Google Sheets credentials.json file in the project root"
 fi
 
-# Check for logo file
-if [ ! -f "assets/utgl.png" ]; then
-    if [ -f "utgl.png" ]; then
-        echo "🖼️ Moving logo to assets directory..."
-        cp utgl.png assets/utgl.png
-    else
-        echo "⚠️ utgl.png not found!"
-        echo "Please place your logo file in the project directory or assets directory"
-    fi
-fi
-
-# Set file permissions
-chmod +x run.sh
-chmod 600 .env
-chmod 600 credentials.json
-
-echo "✅ Setup complete!"
-echo "Please ensure:"
-echo "1. .env file is configured with your settings"
-echo "2. credentials.json is in place"
-echo "3. utgl.png is in the assets directory"
-echo ""
-echo "To run the script:"
-echo "./run.sh" 
+echo "✅ Deployment complete!"
+echo "To start the script, run: ./run.sh" 

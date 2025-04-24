@@ -1,17 +1,19 @@
 #!/bin/bash
 
-# Change to the script directory
-cd "$(dirname "$0")"
+# Exit on error
+set -e
 
-# Activate virtual environment if it exists
-if [ -d "venv" ]; then
-    source venv/bin/activate
-fi
+# Activate virtual environment
+source venv/bin/activate
 
 # Run the script
+echo "🚀 Starting trading charts script..."
 python hei_chart.py
 
-# Deactivate virtual environment
-if [ -d "venv" ]; then
-    deactivate
-fi 
+# Keep the script running
+while true; do
+    echo "⏰ Waiting for next update..."
+    sleep 3600  # Wait for 1 hour
+    echo "🔄 Running update..."
+    python hei_chart.py
+done 
