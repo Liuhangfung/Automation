@@ -1,0 +1,17 @@
+[Unit]
+Description=Trading Charts Analysis Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/ken/AI/hei_chart
+ExecStart=/home/ken/AI/hei_chart/run.sh
+Restart=always
+RestartSec=60
+
+# Environment variables can be set here if needed
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target 
